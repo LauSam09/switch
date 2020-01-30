@@ -1,4 +1,6 @@
-version: 2
+version: 2.1
+orbs:
+  cloudrun: circleci/gcp-cloud-run@1.0.2
 jobs:
   build:
     docker:
@@ -36,11 +38,28 @@ jobs:
             - v1-dependencies-
       - run: yarn lint
 
+  deploy:
+    docker:
+      - image: "cimg/base:stable"
+    steps:
+      - checkout
+      - cloudrun/init
+      - cloudrun/build:
+          tag: "eu.gcr.io/${GOOGLE_PROJECT_ID}/switch-${CIRCLE_SHA1}"
+      - cloudrun/deploy:
+          image: "eu.gcr.io/${GOOGLE_PROJECT_ID}/switch-${CIRCLE_SHA1}"
+          platform: managed
+          region: ${GOOGLE_COMPUTE_ZONE}
+          service-name: frontend
+
 workflows:
-  version: 2
-  build_and_test:
+  build_and_deploy:
     jobs:
       - build
       - lint:
+          requires:
+            - build
+      # TODO: deploy only from master
+      - deploy:
           requires:
             - build
