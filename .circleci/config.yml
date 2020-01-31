@@ -59,7 +59,9 @@ workflows:
       - lint:
           requires:
             - build
-      # TODO: deploy only from master
       - deploy:
+          filters:
+            branches:
+              only: master
           requires:
             - build
