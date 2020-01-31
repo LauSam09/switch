@@ -45,9 +45,9 @@ jobs:
       - checkout
       - cloudrun/init
       - cloudrun/build:
-          tag: "eu.gcr.io/${GOOGLE_PROJECT_ID}/switch-${CIRCLE_SHA1}"
+          tag: "eu.gcr.io/${GOOGLE_PROJECT_ID}/frontend-${CIRCLE_SHA1}"
       - cloudrun/deploy:
-          image: "eu.gcr.io/${GOOGLE_PROJECT_ID}/switch-${CIRCLE_SHA1}"
+          image: "eu.gcr.io/${GOOGLE_PROJECT_ID}/frontend-${CIRCLE_SHA1}"
           platform: managed
           region: ${GOOGLE_COMPUTE_ZONE}
           service-name: frontend
