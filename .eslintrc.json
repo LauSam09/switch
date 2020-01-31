@@ -4,7 +4,11 @@
     "es6": true,
     "jest": true
   },
-  "extends": ["eslint:recommended", "plugin:react/recommended", "standard"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "standard"
+  ],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
@@ -16,10 +20,19 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": ["react"],
+  "plugins": [
+    "react"
+  ],
   "rules": {
-    "semi": ["error", "never"],
-    "quotes": ["error", "single"]
+    "semi": [
+      "error",
+      "never"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "space-before-function-paren": "off"
   },
   "settings": {
     "react": {
