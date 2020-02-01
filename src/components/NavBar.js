@@ -53,8 +53,8 @@ const NavBar = () => {
               open={open}
               onClose={handleClose}
             >
-              <MenuItem component="a" href="/profile" onClick={handleClose}>Profile</MenuItem>
-              <MenuItem component="a" href="/login" onClick={handleClose}>Logout</MenuItem>
+              <MenuItem component={Link} to="/profile" onClick={handleClose}>Profile</MenuItem>
+              <MenuItem component={Link} to="/login" onClick={handleClose}>Logout</MenuItem>
             </Menu>
           </div>
         )
