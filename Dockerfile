@@ -8,10 +8,10 @@ ENV PATH /app/node_modules/.bin:$PATH
 # Copying this separately prevents re-running npm install on every code change.
 COPY package*.json ./
 
-RUN yarn install --prod --silent
-RUN yarn add react-scripts -g --silent
+RUN npm install --prod
+RUN npm install -g react-scripts
 COPY . /app
-RUN yarn build
+RUN npm run build
 
 # production environment
 FROM nginx:alpine
