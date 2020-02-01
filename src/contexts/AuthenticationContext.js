@@ -9,7 +9,6 @@ export const AuthenticationContext = React.createContext({
 
 export const AuthenticationContextConsumer = AuthenticationContext.Consumer
 
-// eslint-disable-next-line react/prop-types
 export const AuthenticationContextProvider = ({ children }) => {
   const {
     loggedIn,

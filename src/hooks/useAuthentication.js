@@ -7,6 +7,7 @@ const useAuthentication = () => {
   const login = (_username, _password) => {
     setLoggedIn(true)
     setLoading(false)
+    return true
   }
 
   const logout = () => {
