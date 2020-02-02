@@ -16,5 +16,7 @@ RUN npm run build
 # production environment
 FROM nginx:alpine
 COPY --from=build /app/build /usr/share/nginx/html
+# overwrite default config
+COPY conf/nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
