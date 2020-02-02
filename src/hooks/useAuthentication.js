@@ -6,8 +6,10 @@ axios.defaults.baseURL = process.env.REACT_APP_REMOTE_DATABASE_URL
 const useAuthentication = () => {
   const [loggedIn, setLoggedIn] = React.useState(false)
   const [loading, setLoading] = React.useState(true)
+  const [error, setError] = React.useState(null)
 
   const login = async (username, password) => {
+    setError('')
     try {
       await axios.post('_session', {
         username: username,
@@ -15,6 +17,7 @@ const useAuthentication = () => {
       })
     } catch (err) {
       console.error(err)
+      setError(err.message)
       return false
     } finally {
       setLoading(false)
@@ -25,6 +28,7 @@ const useAuthentication = () => {
   }
 
   const logout = async () => {
+    setError('')
     try {
       await axios.delete('_session')
     } catch (err) {
@@ -36,7 +40,7 @@ const useAuthentication = () => {
     return true
   }
 
-  return { loggedIn, loading, login, logout }
+  return { loggedIn, loading, login, logout, error }
 }
 
 export default useAuthentication
