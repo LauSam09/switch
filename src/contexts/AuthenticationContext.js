@@ -3,8 +3,8 @@ import useAuthentication from '../hooks/useAuthentication'
 
 export const AuthenticationContext = React.createContext({
   loggedIn: false,
-  login: () => {},
-  logout: () => {}
+  login: async () => {},
+  logout: async () => {}
 })
 
 export const AuthenticationContextConsumer = AuthenticationContext.Consumer

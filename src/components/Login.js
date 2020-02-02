@@ -13,10 +13,11 @@ const Login = () => {
   React.useEffect(() => {
     // Logout on initial visit to page if logged in.
     context.loggedIn && context.logout()
-  }, [context])
+    // eslint-disable-next-line
+  }, [])
 
-  const handleLogin = () => {
-    if (context.login('', '')) {
+  const handleLogin = async () => {
+    if (await context.login('admin', 'admin')) {
       history.push(returnUrl)
     }
   }
