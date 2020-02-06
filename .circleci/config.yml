@@ -42,7 +42,7 @@ jobs:
           args: >
             --substitutions=_TAG=eu.gcr.io/${GOOGLE_PROJECT_ID}/frontend:${CIRCLE_BUILD_NUM},
             _DATABASE_URL=${DATABASE_URL},
-            _IMAGE=eu.gcr.io/${GOOGLE_PROJECT_ID}/frontend
+            _IMAGE_DEST=eu.gcr.io/${GOOGLE_PROJECT_ID}/frontend
       - cloudrun/deploy:
           image: "eu.gcr.io/${GOOGLE_PROJECT_ID}/frontend:${CIRCLE_BUILD_NUM}"
           platform: managed
