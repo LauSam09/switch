@@ -1,4 +1,11 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '--network', 'cloudbuild', '--no-cache','-t', '${_TAG}', '--build-arg', 'DATABASE_URL=${_DATABASE_URL}', '.']
-images: ['${_IMAGE_DEST}']
+  args: ['build', 
+    '--network', 
+    'cloudbuild', 
+    '--no-cache',
+    '-t', 'eu.gcr.io/${_PROJECT_ID}/frontend:${_IMAGE_TAG}',
+    '--build-arg', 'DATABASE_URL=${_DATABASE_URL}', 
+    '.']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'eu.gcr.io/${_PROJECT_ID}/frontend:${_IMAGE_TAG}']
