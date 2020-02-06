@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 
-axios.defaults.baseURL = process.env.REACT_APP_REMOTE_DATABASE_URL
+axios.defaults.baseURL = process.env.REACT_APP_DATABASE_URL
 
 const useAuthentication = () => {
   const [loggedIn, setLoggedIn] = React.useState(false)
