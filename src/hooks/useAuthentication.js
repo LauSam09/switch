@@ -2,11 +2,22 @@ import React from 'react'
 import axios from 'axios'
 
 axios.defaults.baseURL = process.env.REACT_APP_DATABASE_URL
+axios.defaults.withCredentials = true
 
 const useAuthentication = () => {
   const [loggedIn, setLoggedIn] = React.useState(false)
   const [loading, setLoading] = React.useState(true)
   const [error, setError] = React.useState(null)
+
+  React.useEffect(() => {
+    axios.get('_session')
+      .then(resp => {
+        if (resp.data.userCtx.name) {
+          setLoggedIn(true)
+        }
+      })
+      .catch(err => console.error(err))
+  }, [])
 
   const login = async (username, password) => {
     setError('')
