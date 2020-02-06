@@ -1,5 +1,7 @@
 import React from 'react'
 
-const ItemList = () => <div>Placeholder</div>
+const ItemList = () => {
+  return <div>Placeholder</div>
+}
 
 export default ItemList

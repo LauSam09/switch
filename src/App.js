@@ -11,8 +11,8 @@ import AuthenticationContextProvider from './contexts/AuthenticationContext'
 import NotFound from './components/NotFound'
 
 const App = () => <>
-  <AuthenticationContextProvider>
-    <Router>
+  <Router>
+    <AuthenticationContextProvider>
       <NavBar />
       <Container maxWidth="lg">
         <Paper variant="outlined" className="content-container">
@@ -29,8 +29,8 @@ const App = () => <>
           </Switch>
         </Paper>
       </Container>
-    </Router>
-  </AuthenticationContextProvider>
+    </AuthenticationContextProvider>
+  </Router>
 </>
 
 export default App
