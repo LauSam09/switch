@@ -12,80 +12,80 @@ import {
 } from '@material-ui/core'
 import CommentIcon from '@material-ui/icons/Comment'
 
-const ItemList = () => {
-  const [items, setItems] = React.useState([
-    { _id: 'sweetcorn' },
-    { _id: 'chocolate' }
-  ])
-  const [error, setError] = React.useState('')
+import useItems from '../hooks/useItems'
 
-  const addItem = item => {
-    if (items.filter(i => i._id.toLowerCase() === item._id.toLowerCase()).length > 0) {
-      setError(`Item '${item._id}' already added.`)
-      return false
-    }
-    setItems([...items, item])
-    setError('')
-    return true
-  }
+const ItemList = () => {
+  const { get, add, error } = useItems()
+
+  const [items, setItems] = React.useState([])
+
+  React.useEffect(() => {
+    get()
+      .then(i => setItems(i))
+  }, [get])
 
   return (
     <Container maxWidth="sm">
       <Items items={items} />
-      <Input addItem={addItem} error={error} clearError={() => setError('')} />
+      <Input addItem={add} error={error} />
     </Container>
   )
 }
 
 const Items = ({ items }) =>
   <List>
-    {items.map(item => {
-      return <ListItem key={item._id} dense button>
-        <ListItemIcon>
-          <Checkbox
-            edge="start"
-            // checked={item.completed}
-            style={{
-              color: '#757575',
-              backgroundColor: 'inherit'
-            }}
-            tabIndex={-1}
-            disableRipple
-          />
-        </ListItemIcon>
-        <ListItemText primary={item._id} />
-        <ListItemSecondaryAction>
-          <IconButton
-            edge="end"
+    {items.length > 0
+      ? items.map(item => {
+        return <ListItem key={item._id} dense button>
+          <ListItemIcon>
+            <Checkbox
+              edge="start"
+              // checked={item.completed}
+              style={{
+                color: '#757575',
+                backgroundColor: 'inherit'
+              }}
+              tabIndex={-1}
+              disableRipple
+            />
+          </ListItemIcon>
+          <ListItemText primary={item._id} />
+          <ListItemSecondaryAction>
+            <IconButton
+              edge="end"
             // style={{
             //     backgroundColor: category.color,
             //     color: category.fontColour
             // }}
             // onClick={() => setModalItem(index)}
-          >
-            <CommentIcon />
-          </IconButton>
-        </ListItemSecondaryAction>
-      </ListItem>
-    })}
+            >
+              <CommentIcon />
+            </IconButton>
+          </ListItemSecondaryAction>
+        </ListItem>
+      })
+      : <span>Nothing added yet!</span>}
   </List>
 
-const Input = ({ addItem, error, clearError }) => {
+const Input = ({ addItem, error }) => {
   const [value, setValue] = React.useState('')
+  const [displayError, setDisplayError] = React.useState(false)
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async event => {
     event.preventDefault()
-    addItem({ _id: value }) && setValue('')
+    await addItem({ _id: value })
+      ? setValue('')
+      : setDisplayError(true)
   }
 
   const handleChange = (event) => {
-    error && clearError()
+    displayError && setDisplayError(false)
     setValue(event.target.value)
   }
 
   return <form onSubmit={handleSubmit}>
     {
-      error && <span style={{ color: 'red' }}>{error}</span>
+      error && displayError && <span style={{ color: 'red' }}>{error}</span>
     }
     <TextField
       error={Boolean(error)}
