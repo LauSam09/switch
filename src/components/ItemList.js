@@ -32,7 +32,7 @@ const ItemList = () => {
       }
       setItems(newItems)
     })
-  })
+  }, [onChange])
 
   return (
     <Container maxWidth="sm">

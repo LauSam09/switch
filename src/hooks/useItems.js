@@ -1,9 +1,12 @@
 import React from 'react'
 import PouchDB from 'pouchdb-browser'
+import { REMOTE_DATABASE } from '../constants'
+
+export const db = new PouchDB('items')
+export const remoteDb = new PouchDB(`${REMOTE_DATABASE}/items`)
 
 const useItems = () => {
   const [error, setError] = React.useState('')
-  const db = new PouchDB('items')
 
   const get = async () => {
     const response = await db.allDocs({

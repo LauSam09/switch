@@ -1,8 +1,10 @@
 import React from 'react'
 import axios from 'axios'
 import { useLocation, useHistory } from 'react-router-dom'
+import { REMOTE_DATABASE } from '../constants'
+import { db as itemsDb, remoteDb as remoteItemsDb } from './useItems'
 
-axios.defaults.baseURL = process.env.REACT_APP_DATABASE_URL
+axios.defaults.baseURL = REMOTE_DATABASE
 axios.defaults.withCredentials = true
 
 const useAuthentication = () => {
@@ -11,6 +13,8 @@ const useAuthentication = () => {
   const [error, setError] = React.useState(null)
   const location = useLocation()
   const history = useHistory()
+
+  const [itemsSyncHandler, setItemsSyncHandler] = React.useState(null)
 
   React.useEffect(() => {
     axios.interceptors.response.use(resp => resp, (err) => {
@@ -29,12 +33,27 @@ const useAuthentication = () => {
     axios.get('_session')
       .then(resp => {
         if (resp.data.userCtx.name) {
-          setLoggedIn(true)
+          onLogin()
         }
       })
       .catch(err => console.error(err))
       // eslint-disable-next-line
   }, [])
+
+  const onLogin = () => {
+    setItemsSyncHandler(itemsDb.sync(remoteItemsDb, {
+      live: true,
+      retry: true
+    }))
+
+    setLoggedIn(true)
+  }
+
+  const onLogout = () => {
+    itemsSyncHandler && itemsSyncHandler.cancel()
+    setItemsSyncHandler(null)
+    setLoggedIn(false)
+  }
 
   const login = async (username, password) => {
     setError('')
@@ -43,7 +62,7 @@ const useAuthentication = () => {
         username: username,
         password: password
       })
-      setLoggedIn(true)
+      onLogin()
       return true
     } catch (err) {
       console.error(err)
@@ -63,7 +82,7 @@ const useAuthentication = () => {
       return false
     }
 
-    setLoggedIn(false)
+    onLogout()
     return true
   }
 
