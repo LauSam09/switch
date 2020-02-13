@@ -23,10 +23,19 @@ const useItems = () => {
     }
   }
 
+  const onChange = (handleChange) => {
+    db.changes({
+      since: 'now',
+      live: true,
+      include_docs: true
+    }).on('change', handleChange)
+  }
+
   return {
     get,
     add,
-    error
+    error,
+    onChange
   }
 }
 

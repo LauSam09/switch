@@ -15,7 +15,7 @@ import CommentIcon from '@material-ui/icons/Comment'
 import useItems from '../hooks/useItems'
 
 const ItemList = () => {
-  const { get, add, error } = useItems()
+  const { get, add, error, onChange } = useItems()
 
   const [items, setItems] = React.useState([])
 
@@ -23,6 +23,16 @@ const ItemList = () => {
     get()
       .then(i => setItems(i))
   }, [get])
+
+  React.useEffect(() => {
+    onChange(change => {
+      const newItems = items.filter(i => i._id !== change.id)
+      if (!change.deleted) {
+        newItems.push(change.doc)
+      }
+      setItems(newItems)
+    })
+  })
 
   return (
     <Container maxWidth="sm">
@@ -88,7 +98,7 @@ const Input = ({ addItem, error }) => {
       error && displayError && <span style={{ color: 'red' }}>{error}</span>
     }
     <TextField
-      error={Boolean(error)}
+      error={Boolean(error) && displayError}
       autoCapitalize="off"
       autoFocus={false}
       fullWidth
