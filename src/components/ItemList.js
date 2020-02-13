@@ -15,7 +15,7 @@ import CommentIcon from '@material-ui/icons/Comment'
 import useItems from '../hooks/useItems'
 
 const ItemList = () => {
-  const { get, add, error, onChange } = useItems()
+  const { get, add, update, error, onChange } = useItems()
 
   const [items, setItems] = React.useState([])
 
@@ -36,21 +36,21 @@ const ItemList = () => {
 
   return (
     <Container maxWidth="sm">
-      <Items items={items} />
+      <Items items={items} toggleComplete={(item) => update({ ...item, completed: !item.completed })} />
       <Input addItem={add} error={error} />
     </Container>
   )
 }
 
-const Items = ({ items }) =>
+const Items = ({ items, toggleComplete }) =>
   <List>
     {items.length > 0
       ? items.map(item => {
-        return <ListItem key={item._id} dense button>
+        return <ListItem key={item._id} onClick={() => toggleComplete(item)} dense button>
           <ListItemIcon>
             <Checkbox
               edge="start"
-              // checked={item.completed}
+              checked={item.completed}
               style={{
                 color: '#757575',
                 backgroundColor: 'inherit'

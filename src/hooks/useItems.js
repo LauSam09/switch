@@ -34,9 +34,18 @@ const useItems = () => {
     }).on('change', handleChange)
   }
 
+  const update = async (item) => {
+    try {
+      await db.put(item)
+    } catch (err) {
+      console.err(err)
+    }
+  }
+
   return {
     get,
     add,
+    update,
     error,
     onChange
   }
