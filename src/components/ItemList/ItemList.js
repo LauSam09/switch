@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container } from '@material-ui/core'
+import { Container, CircularProgress } from '@material-ui/core'
 import IconButton from '@material-ui/core/IconButton'
 import DeleteIcon from '@material-ui/icons/Delete'
 import AddIcon from '@material-ui/icons/Add'
@@ -13,11 +13,15 @@ import useItems from '../../hooks/useItems'
 const ItemList = () => {
   const { get, add, update, bulkUpdate, error, onChange } = useItems()
   const [items, setItems] = React.useState([])
+  const [loading, setLoading] = React.useState(true)
   const inputRef = React.useRef()
 
   React.useEffect(() => {
     get()
-      .then(i => setItems(i))
+      .then(i => {
+        setItems(i)
+        setLoading(false)
+      })
   // eslint-disable-next-line
   }, [])
 
@@ -36,6 +40,10 @@ const ItemList = () => {
 
   const clear = async () => {
     await bulkUpdate(items.filter(i => i.completed).map(c => ({ ...c, completed: false, added: false })))
+  }
+
+  if (loading) {
+    return <div style={{ textAlign: 'center' }}><CircularProgress /></div>
   }
 
   return (
