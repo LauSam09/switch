@@ -38,7 +38,7 @@ const useItems = () => {
     try {
       await db.put(item)
     } catch (err) {
-      console.err(err)
+      console.error(err)
     }
   }
 

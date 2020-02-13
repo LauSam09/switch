@@ -22,17 +22,16 @@ const ItemList = () => {
   React.useEffect(() => {
     get()
       .then(i => setItems(i))
-  }, [get])
+  // eslint-disable-next-line
+  }, [])
 
   React.useEffect(() => {
-    onChange(change => {
-      const newItems = items.filter(i => i._id !== change.id)
-      if (!change.deleted) {
-        newItems.push(change.doc)
-      }
-      setItems(newItems)
+    onChange((_) => {
+      get()
+        .then(i => setItems(i))
     })
-  }, [onChange])
+  // eslint-disable-next-line
+  }, [])
 
   return (
     <Container maxWidth="sm">
@@ -50,7 +49,7 @@ const Items = ({ items, toggleComplete }) =>
           <ListItemIcon>
             <Checkbox
               edge="start"
-              checked={item.completed}
+              checked={item.completed || false}
               style={{
                 color: '#757575',
                 backgroundColor: 'inherit'
