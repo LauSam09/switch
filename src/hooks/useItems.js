@@ -1,27 +1,40 @@
 import React from 'react'
 import PouchDB from 'pouchdb-browser'
+import PouchDBFind from 'pouchdb-find'
 import { REMOTE_DATABASE } from '../constants'
+
+PouchDB.plugin(PouchDBFind)
 
 export const db = new PouchDB('items')
 export const remoteDb = new PouchDB(`${REMOTE_DATABASE}/items`)
+
+db.createIndex({
+  index: { fields: ['added'] }
+})
 
 const useItems = () => {
   const [error, setError] = React.useState('')
 
   const get = async () => {
-    const response = await db.allDocs({
-      include_docs: true
-    })
-    return response.rows.map(row => row.doc)
+    return (await db.find({
+      selector: {
+        added: true
+      }
+    })).docs
   }
 
   const add = async (item) => {
     try {
-      await db.get(item._id)
-      setError(`Item '${item._id}' already added.`)
-      return false
+      const existing = await db.get(item._id)
+      if (existing.added) {
+        setError(`Item '${item._id}' already added.`)
+        return false
+      } else {
+        await db.put({ ...existing, added: true })
+        return true
+      }
     } catch (err) {
-      await db.put(item)
+      await db.put({ ...item, added: true })
       return true
     }
   }
@@ -42,10 +55,19 @@ const useItems = () => {
     }
   }
 
+  const bulkUpdate = async (items) => {
+    try {
+      await db.bulkDocs(items)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   return {
     get,
     add,
     update,
+    bulkUpdate,
     error,
     onChange
   }

@@ -11,7 +11,7 @@ import Input from './Input'
 import useItems from '../../hooks/useItems'
 
 const ItemList = () => {
-  const { get, add, update, error, onChange } = useItems()
+  const { get, add, update, bulkUpdate, error, onChange } = useItems()
   const [items, setItems] = React.useState([])
   const inputRef = React.useRef()
 
@@ -34,13 +34,17 @@ const ItemList = () => {
     inputRef.current.focus()
   }
 
+  const clear = async () => {
+    await bulkUpdate(items.filter(i => i.completed).map(c => ({ ...c, completed: false, added: false })))
+  }
+
   return (
     <Container maxWidth="sm">
       <div style={{ textAlign: 'right' }}>
         <IconButton aria-label="add" onClick={focusInput} >
           <AddIcon />
         </IconButton>
-        <IconButton aria-label="delete">
+        <IconButton aria-label="delete" onClick={clear}>
           <DeleteIcon style={{ color: red[700] }} />
         </IconButton>
       </div>
