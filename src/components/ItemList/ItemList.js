@@ -1,5 +1,9 @@
 import React from 'react'
 import { Container } from '@material-ui/core'
+import IconButton from '@material-ui/core/IconButton'
+import DeleteIcon from '@material-ui/icons/Delete'
+import AddIcon from '@material-ui/icons/Add'
+import { red } from '@material-ui/core/colors'
 
 import List from './List'
 import Input from './Input'
@@ -8,8 +12,8 @@ import useItems from '../../hooks/useItems'
 
 const ItemList = () => {
   const { get, add, update, error, onChange } = useItems()
-
   const [items, setItems] = React.useState([])
+  const inputRef = React.useRef()
 
   React.useEffect(() => {
     get()
@@ -25,10 +29,23 @@ const ItemList = () => {
   // eslint-disable-next-line
   }, [])
 
+  const focusInput = () => {
+    inputRef.current.scrollIntoView({ behaviour: 'smooth' })
+    inputRef.current.focus()
+  }
+
   return (
     <Container maxWidth="sm">
+      <div style={{ textAlign: 'right' }}>
+        <IconButton aria-label="add" onClick={focusInput} >
+          <AddIcon />
+        </IconButton>
+        <IconButton aria-label="delete">
+          <DeleteIcon style={{ color: red[700] }} />
+        </IconButton>
+      </div>
       <List items={items} toggleComplete={(item) => update({ ...item, completed: !item.completed })} />
-      <Input addItem={add} error={error} />
+      <Input addItem={add} error={error} ref={inputRef} />
     </Container>
   )
 }

@@ -1,9 +1,10 @@
+/* eslint-disable react/display-name */
 import React from 'react'
 import {
   TextField
 } from '@material-ui/core'
 
-const Input = ({ addItem, error }) => {
+const Input = React.forwardRef(({ addItem, error }, ref) => {
   const [value, setValue] = React.useState('')
   const [displayError, setDisplayError] = React.useState(false)
 
@@ -24,6 +25,7 @@ const Input = ({ addItem, error }) => {
       error && displayError && <span style={{ color: 'red' }}>{error}</span>
     }
     <TextField
+      inputRef={ref}
       error={Boolean(error) && displayError}
       autoCapitalize="off"
       autoFocus={false}
@@ -34,6 +36,6 @@ const Input = ({ addItem, error }) => {
       margin="normal"
     />
   </form>
-}
+})
 
 export default Input
