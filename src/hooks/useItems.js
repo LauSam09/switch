@@ -24,13 +24,15 @@ const useItems = () => {
   }
 
   const add = async (item) => {
+    item.name = item._id
+    item._id = item._id.toLowerCase() // id should always be lower-case
     try {
       const existing = await db.get(item._id)
       if (existing.added) {
         setError(`Item '${item._id}' already added.`)
         return false
       } else {
-        await db.put({ ...existing, added: true })
+        await db.put({ ...existing, name: item.name, added: true })
         return true
       }
     } catch (err) {

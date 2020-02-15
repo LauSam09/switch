@@ -27,7 +27,7 @@ const Items = ({ items, toggleComplete }) =>
               disableRipple
             />
           </ListItemIcon>
-          <ListItemText primary={item._id} />
+          <ListItemText primary={item.name || item._id} />
           <ListItemSecondaryAction>
             <IconButton
               edge="end"
