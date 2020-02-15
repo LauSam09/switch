@@ -36,7 +36,7 @@ const useItems = () => {
         return true
       }
     } catch (err) {
-      await db.put({ ...item, added: true })
+      await db.put({ ...item, added: true, category: 0 })
       return true
     }
   }

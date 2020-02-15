@@ -9,11 +9,13 @@ import List from './List'
 import Input from './Input'
 
 import useItems from '../../hooks/useItems'
+import CategoryPicker from './CategoryPicker'
 
 const ItemList = () => {
   const { get, add, update, bulkUpdate, error, onChange } = useItems()
   const [items, setItems] = React.useState([])
   const [loading, setLoading] = React.useState(true)
+  const [categoryItem, setCategoryItem] = React.useState(null)
   const inputRef = React.useRef()
 
   React.useEffect(() => {
@@ -42,12 +44,21 @@ const ItemList = () => {
     await bulkUpdate(items.filter(i => i.completed).map(c => ({ ...c, completed: false, added: false })))
   }
 
+  const changeCategory = (category) => {
+    update({ ...categoryItem, category })
+    setCategoryItem(null)
+  }
+
   if (loading) {
     return <div style={{ textAlign: 'center' }}><CircularProgress /></div>
   }
 
   return (
     <Container maxWidth="sm">
+      {categoryItem && <CategoryPicker name={categoryItem.name || categoryItem._id}
+        initialCategory={categoryItem.category || 0}
+        selectCategory={changeCategory}
+      />}
       <div style={{ textAlign: 'right' }}>
         <IconButton aria-label="add" onClick={focusInput} >
           <AddIcon />
@@ -56,7 +67,9 @@ const ItemList = () => {
           <DeleteIcon style={{ color: red[700] }} />
         </IconButton>
       </div>
-      <List items={items} toggleComplete={(item) => update({ ...item, completed: !item.completed })} />
+      <List items={items.sort((item1, item2) => item1.category - item2.category)}
+        toggleComplete={(item) => update({ ...item, completed: !item.completed })}
+        openCategoryPicker={(item) => setCategoryItem(item)} />
       <Input addItem={add} error={error} ref={inputRef} />
     </Container>
   )

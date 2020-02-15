@@ -9,11 +9,15 @@ import {
   ListItemSecondaryAction
 } from '@material-ui/core'
 import CommentIcon from '@material-ui/icons/Comment'
+import { CATEGORIES } from '../../constants'
 
-const Items = ({ items, toggleComplete }) =>
+const Items = ({ items, toggleComplete, openCategoryPicker }) =>
   <List>
     {items.length > 0
       ? items.map(item => {
+        const category = item.category === undefined
+          ? CATEGORIES[0]
+          : CATEGORIES[item.category]
         return <ListItem key={item._id} onClick={() => toggleComplete(item)} dense button>
           <ListItemIcon>
             <Checkbox
@@ -31,11 +35,11 @@ const Items = ({ items, toggleComplete }) =>
           <ListItemSecondaryAction>
             <IconButton
               edge="end"
-            // style={{
-            //     backgroundColor: category.color,
-            //     color: category.fontColour
-            // }}
-            // onClick={() => setModalItem(index)}
+              style={{
+                backgroundColor: category.color,
+                color: category.fontColour
+              }}
+              onClick={() => openCategoryPicker(item)}
             >
               <CommentIcon />
             </IconButton>
