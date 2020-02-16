@@ -28,7 +28,7 @@ const ItemList = () => {
   }, [])
 
   React.useEffect(() => {
-    onChange((_) => {
+    onChange(_ => {
       get()
         .then(i => setItems(i))
     })
