@@ -32,7 +32,10 @@ const Login = () => {
         Log in
     </Typography>
     {error && <Typography variant="body1" style={{ color: 'red' }}>{error}</Typography>}
-    <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column' }}>
+    <form onSubmit={handleLogin}
+      style={{ display: 'flex', flexDirection: 'column' }}
+      autoComplete="off"
+      noValidate>
       <TextField
         required
         value={username}
