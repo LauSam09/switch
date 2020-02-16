@@ -7,23 +7,50 @@ import { AuthenticationContext } from '../contexts/AuthenticationContext'
 
 const NavBar = () => {
   const context = React.useContext(AuthenticationContext)
-  const [anchorEl, setAnchorEl] = React.useState(null)
-  const open = Boolean(anchorEl)
+  const [profileAnchorEl, setProfileAnchorEl] = React.useState(null)
+  const open = Boolean(profileAnchorEl)
+  const [mainAnchorEl, setMainAnchorEl] = React.useState(null)
+  const mainOpen = Boolean(mainAnchorEl)
 
-  const handleMenu = event => {
-    setAnchorEl(event.currentTarget)
+  const handleProfileMenu = event => {
+    setProfileAnchorEl(event.currentTarget)
   }
 
-  const handleClose = () => {
-    setAnchorEl(null)
+  const handleMainMenu = event => {
+    setMainAnchorEl(event.currentTarget)
+  }
+
+  const handleProfileClose = () => {
+    setProfileAnchorEl(null)
+  }
+
+  const handleMainClose = () => {
+    setMainAnchorEl(null)
   }
 
   return <AppBar position="sticky" color="primary">
     <Container maxWidth="lg">
       <Toolbar>
-        <IconButton edge="start" color="inherit" aria-label="menu">
+        <IconButton edge="start" color="inherit" aria-label="menu" onClick={handleMainMenu}>
           <MenuIcon />
         </IconButton>
+        <Menu
+          anchorEl={mainAnchorEl}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center'
+          }}
+          keepMounted
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center'
+          }}
+          open={mainOpen}
+          onClose={handleMainClose}
+        >
+          <MenuItem component={Link} to="/" onClick={handleMainClose}>Items</MenuItem>
+          <MenuItem component={Link} to="/recipes" onClick={handleMainClose}>Recipes</MenuItem>
+        </Menu>
         <Link to="/" style={{ flexGrow: 1 }}>
           <Typography variant="h6">Switch</Typography>
         </Link>
@@ -33,14 +60,13 @@ const NavBar = () => {
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              onClick={handleMenu}
+              onClick={handleProfileMenu}
               color="inherit"
             >
               <AccountCircle />
             </IconButton>
             <Menu
-              id="menu-appbar"
-              anchorEl={anchorEl}
+              anchorEl={profileAnchorEl}
               anchorOrigin={{
                 vertical: 'top',
                 horizontal: 'right'
@@ -51,10 +77,10 @@ const NavBar = () => {
                 horizontal: 'right'
               }}
               open={open}
-              onClose={handleClose}
+              onClose={handleProfileClose}
             >
-              <MenuItem component={Link} to="/profile" onClick={handleClose}>Profile</MenuItem>
-              <MenuItem component={Link} to="/login" onClick={handleClose}>Logout</MenuItem>
+              {/* <MenuItem component={Link} to="/profile" onClick={handleClose}>Profile</MenuItem> */}
+              <MenuItem component={Link} to="/login" onClick={handleProfileClose}>Logout</MenuItem>
             </Menu>
           </div>
         )
