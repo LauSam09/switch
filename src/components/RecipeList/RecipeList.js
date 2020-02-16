@@ -35,6 +35,7 @@ const RecipeList = () => {
       get()
         .then(r => setRecipes(r))
     })
+  // eslint-disable-next-line
   }, [])
 
   const handleAdd = async (recipe) => {

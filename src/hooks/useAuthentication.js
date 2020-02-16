@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useLocation, useHistory } from 'react-router-dom'
 import { REMOTE_DATABASE } from '../constants'
 import { db as itemsDb, remoteDb as remoteItemsDb } from './useItems'
+import { db as recipesDb, remoteDb as remoteRecipesDb } from './useRecipes'
 
 axios.defaults.baseURL = REMOTE_DATABASE
 axios.defaults.withCredentials = true
@@ -15,6 +16,7 @@ const useAuthentication = () => {
   const history = useHistory()
 
   const [itemsSyncHandler, setItemsSyncHandler] = React.useState(null)
+  const [recipesSyncHandler, setRecipesSyncHandler] = React.useState(null)
 
   React.useEffect(() => {
     axios.interceptors.response.use(resp => resp, (err) => {
@@ -45,6 +47,10 @@ const useAuthentication = () => {
       live: true,
       retry: true
     }))
+    setRecipesSyncHandler(recipesDb.sync(remoteRecipesDb, {
+      live: true,
+      retry: true
+    }))
 
     setLoggedIn(true)
   }
@@ -52,6 +58,8 @@ const useAuthentication = () => {
   const onLogout = () => {
     itemsSyncHandler && itemsSyncHandler.cancel()
     setItemsSyncHandler(null)
+    recipesSyncHandler && recipesSyncHandler.cancel()
+    setRecipesSyncHandler(null)
     setLoggedIn(false)
   }
 
