@@ -60,10 +60,10 @@ const ItemList = () => {
         selectCategory={changeCategory}
       />}
       <div style={{ textAlign: 'right' }}>
-        <IconButton aria-label="add" onClick={focusInput} >
+        <IconButton aria-label="add" onClick={focusInput} title="Add" >
           <AddIcon />
         </IconButton>
-        <IconButton aria-label="delete" onClick={clear}>
+        <IconButton aria-label="delete" onClick={clear} title="Clear completed">
           <DeleteIcon style={{ color: red[700] }} />
         </IconButton>
       </div>
