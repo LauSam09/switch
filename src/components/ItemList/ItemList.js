@@ -55,7 +55,7 @@ const ItemList = () => {
 
   return (
     <Container maxWidth="sm">
-      {categoryItem && <CategoryPicker name={categoryItem.name || categoryItem._id}
+      {categoryItem && <CategoryPicker name={categoryItem._id}
         initialCategory={categoryItem.category || 0}
         selectCategory={changeCategory}
       />}

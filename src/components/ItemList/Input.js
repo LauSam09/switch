@@ -17,7 +17,7 @@ const Input = React.forwardRef(({ addItem, error }, ref) => {
 
   const handleChange = (event) => {
     displayError && setDisplayError(false)
-    setValue(event.target.value)
+    setValue(event.target.value.toLowerCase())
   }
 
   return <form onSubmit={handleSubmit}>
