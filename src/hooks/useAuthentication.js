@@ -19,38 +19,46 @@ const useAuthentication = () => {
   const [recipesSyncHandler, setRecipesSyncHandler] = React.useState(null)
 
   React.useEffect(() => {
-    axios.interceptors.response.use(resp => resp, (err) => {
-      if (err.response.status === 401) {
-        if (loggedIn) {
-          setLoggedIn(false)
-        }
+    axios.interceptors.response.use(
+      resp => resp,
+      err => {
+        if (err.response && err.response.status === 401) {
+          if (loggedIn) {
+            setLoggedIn(false)
+          }
 
-        if (location.pathname !== '/login') {
-          history.push('/login')
+          if (location.pathname !== '/login') {
+            history.push('/login')
+          }
         }
+        return Promise.reject(err)
       }
-      return Promise.reject(err)
-    })
+    )
 
-    axios.get('_session')
+    axios
+      .get('_session')
       .then(resp => {
         if (resp.data.userCtx.name) {
           onLogin()
         }
       })
       .catch(err => console.error(err))
-      // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [])
 
   const onLogin = () => {
-    setItemsSyncHandler(itemsDb.sync(remoteItemsDb, {
-      live: true,
-      retry: true
-    }))
-    setRecipesSyncHandler(recipesDb.sync(remoteRecipesDb, {
-      live: true,
-      retry: true
-    }))
+    setItemsSyncHandler(
+      itemsDb.sync(remoteItemsDb, {
+        live: true,
+        retry: true
+      })
+    )
+    setRecipesSyncHandler(
+      recipesDb.sync(remoteRecipesDb, {
+        live: true,
+        retry: true
+      })
+    )
 
     setLoggedIn(true)
   }
@@ -65,6 +73,7 @@ const useAuthentication = () => {
 
   const login = async (username, password) => {
     setError('')
+    setLoading(true)
     try {
       await axios.post('_session', {
         username: username,

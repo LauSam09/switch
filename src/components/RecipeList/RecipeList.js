@@ -22,41 +22,54 @@ const RecipeList = () => {
   const [error, setError] = React.useState('')
 
   React.useEffect(() => {
-    get()
-      .then(r => {
-        setRecipes(r)
-        setLoading(false)
-      })
-  // eslint-disable-next-line
+    get().then(r => {
+      setRecipes(r)
+      setLoading(false)
+    })
+    // eslint-disable-next-line
   }, [])
 
   React.useEffect(() => {
     onChange(_ => {
-      get()
-        .then(r => setRecipes(r))
+      get().then(r => setRecipes(r))
     })
-  // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [])
 
-  const handleAdd = async (recipe) => {
+  const handleAdd = async recipe => {
     setError('')
     if (recipes.filter(r => r._id === recipe._id).length > 0) {
       setError(`Recipe '${recipe._id}' already added`)
+      return false
     } else {
       await add(recipe)
       setAddDialogOpen(false)
+      return true
     }
   }
 
   if (loading) {
-    return <div style={{ textAlign: 'center' }}><CircularProgress /></div>
+    return (
+      <div style={{ textAlign: 'center' }}>
+        <CircularProgress />
+      </div>
+    )
   }
 
   return (
     <Container maxWidth="sm">
-      <AddRecipe open={addDialogOpen} add={handleAdd} error={error} close={() => setAddDialogOpen(false) }/>
+      <AddRecipe
+        open={addDialogOpen}
+        add={handleAdd}
+        error={error}
+        close={() => setAddDialogOpen(false)}
+      />
       <div style={{ textAlign: 'right' }}>
-        <IconButton aria-label="add" title="Add" onClick={() => setAddDialogOpen(true)} >
+        <IconButton
+          aria-label="add"
+          title="Add"
+          onClick={() => setAddDialogOpen(true)}
+        >
           <AddIcon />
         </IconButton>
         {/* <IconButton aria-label="delete" title="Clear selected">
@@ -64,13 +77,17 @@ const RecipeList = () => {
         </IconButton> */}
       </div>
       <List>
-        {recipes.length > 0
-          ? recipes.map(recipe => {
-            return <ListItem key={recipe._id} button>
-              <ListItemText primary={recipe._id} />
-            </ListItem>
+        {recipes.length > 0 ? (
+          recipes.map(recipe => {
+            return (
+              <ListItem key={recipe._id} button>
+                <ListItemText primary={recipe._id} />
+              </ListItem>
+            )
           })
-          : <span>Nothing added yet!</span>}
+        ) : (
+          <span>Nothing added yet!</span>
+        )}
       </List>
     </Container>
   )
