@@ -8,19 +8,19 @@ import {
   TextField
 } from '@material-ui/core'
 
-const AddRecipe = ({ open, add, error, close }) => {
-  const [name, setName] = React.useState('')
+const EditRecipe = ({ recipe, update, error, close }) => {
+  const [name, setName] = React.useState(recipe.name)
 
   const handleSubmit = async event => {
     event.preventDefault()
-    if (await add({ name })) {
+    if (await update({ ...recipe, name })) {
       setName('')
     }
   }
 
   return (
-    <Dialog open={open} fullWidth={true} maxWidth={'xs'}>
-      <DialogTitle>Add a recipe</DialogTitle>
+    <Dialog open={true} fullWidth={true} maxWidth={'xs'}>
+      <DialogTitle>Edit {recipe.name}</DialogTitle>
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>
         <DialogContent>
           {error && <span style={{ color: 'red' }}>{error}</span>}
@@ -30,6 +30,7 @@ const AddRecipe = ({ open, add, error, close }) => {
             autoFocus
             label="Name"
             value={name}
+            style={{ marginTop: '5px' }}
             onChange={event => setName(event.target.value.toLowerCase())}
           />
         </DialogContent>
@@ -46,4 +47,4 @@ const AddRecipe = ({ open, add, error, close }) => {
   )
 }
 
-export default AddRecipe
+export default EditRecipe

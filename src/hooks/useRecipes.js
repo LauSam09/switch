@@ -10,7 +10,7 @@ const useItems = () => {
 
   const add = async recipe => {
     try {
-      await db.put(recipe)
+      await db.post(recipe)
       return true
     } catch (err) {
       console.error(err)
