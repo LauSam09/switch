@@ -42,11 +42,20 @@ const useItems = () => {
     }
   }
 
+  const remove = async recipe => {
+    try {
+      await db.remove(recipe)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   return {
     get,
     add,
     update,
     bulkUpdate,
+    remove,
     onChange
   }
 }

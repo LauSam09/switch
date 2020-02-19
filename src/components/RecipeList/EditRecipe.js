@@ -7,8 +7,11 @@ import {
   DialogTitle,
   TextField
 } from '@material-ui/core'
+import IconButton from '@material-ui/core/IconButton'
+import DeleteIcon from '@material-ui/icons/Delete'
+import { red } from '@material-ui/core/colors'
 
-const EditRecipe = ({ recipe, update, error, close }) => {
+const EditRecipe = ({ recipe, update, remove, error, close }) => {
   const [name, setName] = React.useState(recipe.name)
 
   const handleSubmit = async event => {
@@ -20,7 +23,12 @@ const EditRecipe = ({ recipe, update, error, close }) => {
 
   return (
     <Dialog open={true} fullWidth={true} maxWidth={'xs'}>
-      <DialogTitle>Edit {recipe.name}</DialogTitle>
+      <DialogTitle>Edit {recipe.name}
+        <IconButton style={{ float: 'right' }} onClick={remove} aria-label="delete" title="Delete">
+          <DeleteIcon style={{ color: red[700] }} />
+        </IconButton>
+      </DialogTitle>
+
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>
         <DialogContent>
           {error && <span style={{ color: 'red' }}>{error}</span>}

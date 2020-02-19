@@ -16,7 +16,7 @@ import EditRecipe from './EditRecipe'
 import useRecipes from '../../hooks/useRecipes'
 
 const RecipeList = () => {
-  const { get, add, update, onChange } = useRecipes()
+  const { get, add, update, remove, onChange } = useRecipes()
   const [recipes, setRecipes] = React.useState([])
   const [selectedRecipe, setSelectedRecipe] = React.useState(null)
   const [loading, setLoading] = React.useState(true)
@@ -62,6 +62,16 @@ const RecipeList = () => {
     }
   }
 
+  const handleRemove = async () => {
+    setError('')
+    try {
+      await remove(selectedRecipe)
+      closeDialog()
+    } catch (err) {
+      setError(err.message)
+    }
+  }
+
   const closeDialog = () => {
     setError('')
     addDialogOpen && setAddDialogOpen(false)
@@ -87,6 +97,7 @@ const RecipeList = () => {
       {selectedRecipe && <EditRecipe
         recipe={selectedRecipe}
         update={handleUpdate}
+        remove={handleRemove}
         error={error}
         close={() => closeDialog()}
       />}
@@ -104,7 +115,7 @@ const RecipeList = () => {
       </div>
       <List>
         {recipes.length > 0 ? (
-          recipes.map(recipe => {
+          recipes.sort((r1, r2) => r2.name < r1.name).map(recipe => {
             return (
               <ListItem key={recipe._id} onClick={() => setSelectedRecipe(recipe)} button>
                 <ListItemText primary={recipe.name} />
