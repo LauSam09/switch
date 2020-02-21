@@ -29,8 +29,10 @@ const useItems = () => {
   const update = async item => {
     try {
       await db.put(item)
+      return true
     } catch (err) {
       console.error(err)
+      return false
     }
   }
 
