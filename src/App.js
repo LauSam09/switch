@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import NavBar from './components/NavBar'
 import ItemList from './components/ItemList/ItemList'
-import RecipeList from './components/RecipeList'
+import RecipeList from './components/RecipeList/RecipeList'
 import AddRecipe from './components/AddRecipe'
 import Login from './components/Login'
 import AuthenticationContextProvider from './contexts/AuthenticationContext'
