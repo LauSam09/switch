@@ -1,3 +1,4 @@
+// Libraries
 import React from 'react'
 import {
   Container,
@@ -11,12 +12,11 @@ import { Link } from 'react-router-dom'
 import IconButton from '@material-ui/core/IconButton'
 import AddIcon from '@material-ui/icons/Add'
 import DeleteIcon from '@material-ui/icons/Delete'
-import RecipeDialog from './RecipeDialog'
-
-import useRecipes from '../../hooks/useRecipes'
 import { yellow } from '@material-ui/core/colors'
 
-const days = ['saturday', 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday']
+import RecipeDialog from './RecipeDialog'
+import useRecipes from '../../hooks/useRecipes'
+import { DAYS } from '../../constants'
 
 const RecipeList = () => {
   const { get, update, bulkUpdate, onChange } = useRecipes()
@@ -65,6 +65,8 @@ const RecipeList = () => {
         }
         // otherwise sort by day
         return recipe1.day > recipe2.day
+          ? 1
+          : -1
       }
       // second recipe does not have a day, it is lower in the sort.
       return -1
@@ -74,6 +76,8 @@ const RecipeList = () => {
     } else {
       // neither recipe has a day then evaluate by name
       return recipe1.name > recipe2.name
+        ? 1
+        : -1
     }
   }
 
@@ -110,7 +114,7 @@ const RecipeList = () => {
               <ListItem key={recipe._id} onClick={() => setSelectedRecipe(recipe)} button>
                 {typeof recipe.day === 'number' &&
                   <Chip
-                    label={days[recipe.day].slice(0, 3).toUpperCase()}
+                    label={DAYS[recipe.day].slice(0, 3).toUpperCase()}
                     onDelete={() => handleUntagDay(recipe)}
                     style={{ marginRight: '5px' }} />}
                 <ListItemText primary={recipe.name}

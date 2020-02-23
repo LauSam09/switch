@@ -10,3 +10,5 @@ export const CATEGORIES = [
   { name: 'meat', color: '#FFB0B0', fontColour: '#FFFFFF' },
   { name: 'fruit and vegetables', color: '#8EC48C', fontColour: '#FFFFFF' }
 ]
+
+export const DAYS = ['saturday', 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday']

@@ -1,3 +1,4 @@
+// Libraries
 import React from 'react'
 import {
   Dialog,
@@ -13,7 +14,7 @@ import { Link } from 'react-router-dom'
 import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Edit'
 
-const days = ['saturday', 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday']
+import { DAYS } from '../../constants'
 
 const RecipeDialog = ({ recipe: initialRecipe, update, onClose }) => {
   const [recipe, setRecipe] = React.useState(initialRecipe)
@@ -52,7 +53,7 @@ const RecipeDialog = ({ recipe: initialRecipe, update, onClose }) => {
       <FormControl component="fieldset">
         <FormLabel component="legend">Day</FormLabel>
         <RadioGroup aria-label="position" name="position" value={typeof recipe.day === 'number' ? recipe.day : null} onChange={handleChange} row>
-          {days.map((day, index) => (<FormControlLabel
+          {DAYS.map((day, index) => (<FormControlLabel
             key={index}
             value={index}
             style={{ margin: 0 }}
