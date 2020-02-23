@@ -10,15 +10,16 @@ import {
 import { Link } from 'react-router-dom'
 import IconButton from '@material-ui/core/IconButton'
 import AddIcon from '@material-ui/icons/Add'
-
+import DeleteIcon from '@material-ui/icons/Delete'
 import RecipeDialog from './RecipeDialog'
 
 import useRecipes from '../../hooks/useRecipes'
+import { yellow } from '@material-ui/core/colors'
 
 const days = ['saturday', 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday']
 
 const RecipeList = () => {
-  const { get, update, onChange } = useRecipes()
+  const { get, update, bulkUpdate, onChange } = useRecipes()
   const [recipes, setRecipes] = React.useState([])
   const [selectedRecipe, setSelectedRecipe] = React.useState(null)
   const [loading, setLoading] = React.useState(true)
@@ -42,6 +43,16 @@ const RecipeList = () => {
     const updatedRecipe = { ...recipe }
     delete updatedRecipe.day
     await update(updatedRecipe)
+  }
+
+  const handleClearDays = async () => {
+    const recipesWithDay = recipes.filter(r => typeof r.day === 'number')
+    const updatedRecipes = recipesWithDay.map(r => {
+      const updatedRecipe = { ...r }
+      delete updatedRecipe.day
+      return updatedRecipe
+    })
+    await bulkUpdate(updatedRecipes)
   }
 
   const sortRecipes = (recipe1, recipe2) => {
@@ -88,9 +99,9 @@ const RecipeList = () => {
         >
           <AddIcon />
         </IconButton>
-        {/* <IconButton aria-label="delete" title="Clear selected">
-            <DeleteIcon style={{ color: red[700] }} />
-          </IconButton> */}
+        <IconButton aria-label="delete" title="Clear days" onClick={handleClearDays}>
+          <DeleteIcon style={{ color: yellow[700] }} />
+        </IconButton>
       </div>
       <List>
         {recipes.length > 0 ? (
