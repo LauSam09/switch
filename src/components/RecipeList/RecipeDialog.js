@@ -20,8 +20,7 @@ const RecipeDialog = ({ recipe: initialRecipe, update, onClose }) => {
   const [recipe, setRecipe] = React.useState(initialRecipe)
 
   const handleChange = event => {
-    const updatedRecipe = { ...recipe, day: +event.target.value }
-    setRecipe(updatedRecipe)
+    setRecipe({ ...recipe, day: +event.target.value })
   }
 
   const handleClose = async () => {
@@ -35,6 +34,7 @@ const RecipeDialog = ({ recipe: initialRecipe, update, onClose }) => {
     if (recipe.day !== initialRecipe.day) {
       handleClose()
     }
+    // eslint-disable-next-line
   }, [recipe, initialRecipe])
 
   return (<Dialog open={true} onClose={handleClose}>
