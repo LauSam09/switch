@@ -10,14 +10,14 @@ const Input = React.forwardRef(({ addItem, error }, ref) => {
 
   const handleSubmit = async event => {
     event.preventDefault()
-    await addItem({ _id: value })
+    await addItem({ _id: value.toLowerCase() })
       ? setValue('')
       : setDisplayError(true)
   }
 
   const handleChange = (event) => {
     displayError && setDisplayError(false)
-    setValue(event.target.value.toLowerCase())
+    setValue(event.target.value)
   }
 
   return <form onSubmit={handleSubmit}>

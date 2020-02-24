@@ -4,6 +4,7 @@ import { CATEGORIES } from '../../constants'
 
 const CategoryPicker = ({ name, initialCategory, selectCategory }) => {
   return (<Dialog open={true}
+    onClose={() => selectCategory(initialCategory)}
     fullWidth={true}
     maxWidth={'xs'}>
     <DialogTitle>Set category for {name}</DialogTitle>

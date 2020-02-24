@@ -31,7 +31,7 @@ const AddRecipe = () => {
 
   const handleNameChange = (value) => {
     setName(value)
-    if (recipes.filter(r => r.name === value).length > 0) {
+    if (recipes.filter(r => r.name === value.toLowerCase()).length > 0) {
       setError('Name taken')
     } else {
       error && setError('')
@@ -41,7 +41,7 @@ const AddRecipe = () => {
   const handleSubmit = async event => {
     event.preventDefault()
 
-    if (await add({ name })) {
+    if (await add({ name: name.toLowerCase() })) {
       history.push('/recipes')
     }
   }
@@ -56,7 +56,7 @@ const AddRecipe = () => {
         autoFocus
         label="Name"
         value={name}
-        onChange={event => handleNameChange(event.target.value.toLowerCase())}
+        onChange={event => handleNameChange(event.target.value)}
       />
       <div style={{ textAlign: 'right', margin: '10px 0' }}>
         <Button color="primary" href="/recipes">
