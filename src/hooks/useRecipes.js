@@ -9,6 +9,8 @@ const useItems = () => {
     (await db.allDocs({ include_docs: true })).rows.map(row => row.doc)
 
   const add = async recipe => {
+    recipe.name = recipe.name.toLowerCase().trim()
+    recipe.url = recipe.url.trim()
     try {
       await db.post(recipe)
       return true
@@ -26,9 +28,11 @@ const useItems = () => {
     }).on('change', handleChange)
   }
 
-  const update = async item => {
+  const update = async recipe => {
+    recipe.name = recipe.name.toLowerCase().trim()
+    recipe.url = recipe.url && recipe.url.trim()
     try {
-      await db.put(item)
+      await db.put(recipe)
       return true
     } catch (err) {
       console.error(err)

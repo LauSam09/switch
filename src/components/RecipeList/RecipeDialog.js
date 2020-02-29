@@ -64,6 +64,13 @@ const RecipeDialog = ({ recipe: initialRecipe, update, onClose }) => {
           />))}
         </RadioGroup>
       </FormControl>
+      {recipe.url &&
+            <FormControl style={{ margin: '15px 0' }}>
+              <FormLabel style={{ marginBottom: '5px' }}>Recipe Url</FormLabel>
+              <a href={recipe.url} target="_blank" rel="noopener noreferrer" style={{ color: 'blue', textDecoration: 'underline' }}>{recipe.url}</a>
+            </FormControl>
+      }
+
     </DialogContent>
   </Dialog>)
 }

@@ -50,6 +50,10 @@ const EditRecipe = () => {
     }
   }
 
+  const handleRecipeUrlChange = (url) => {
+    setRecipe({ ...recipe, url })
+  }
+
   const handleRemove = async () => {
     try {
       await remove(recipe)
@@ -85,6 +89,12 @@ const EditRecipe = () => {
             label="Name"
             value={recipe.name}
             onChange={event => handleNameChange(event.target.value.toLowerCase())}
+          />
+          <TextField
+            fullWidth
+            label="Recipe Url"
+            value={recipe.url}
+            onChange={event => handleRecipeUrlChange(event.target.value)}
           />
           <div style={{ textAlign: 'right', margin: '10px 0' }}>
             <Button color="primary" href="/recipes">

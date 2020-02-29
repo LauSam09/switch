@@ -11,6 +11,7 @@ import { useHistory } from 'react-router-dom'
 const AddRecipe = () => {
   const { add, get, onChange } = useRecipes()
   const [name, setName] = React.useState('')
+  const [url, setUrl] = React.useState('')
   const [error, setError] = React.useState('')
   const [recipes, setRecipes] = React.useState('')
   const history = useHistory()
@@ -31,17 +32,25 @@ const AddRecipe = () => {
 
   const handleNameChange = (value) => {
     setName(value)
-    if (recipes.filter(r => r.name === value.toLowerCase()).length > 0) {
+    if (recipes.filter(r => r.name.trim() === value.toLowerCase().trim()).length > 0) {
       setError('Name taken')
     } else {
       error && setError('')
     }
   }
 
+  const handleUrlChange = (value) => {
+    setUrl(value)
+  }
+
   const handleSubmit = async event => {
     event.preventDefault()
 
-    if (await add({ name: name.toLowerCase() })) {
+    if (await add(
+      {
+        name: name.toLowerCase().trim(),
+        url: url.trim()
+      })) {
       history.push('/recipes')
     }
   }
@@ -57,6 +66,12 @@ const AddRecipe = () => {
         label="Name"
         value={name}
         onChange={event => handleNameChange(event.target.value)}
+      />
+      <TextField
+        fullWidth
+        label="Recipe Url"
+        value={url}
+        onChange={event => handleUrlChange(event.target.value)}
       />
       <div style={{ textAlign: 'right', margin: '10px 0' }}>
         <Button color="primary" href="/recipes">
