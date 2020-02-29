@@ -30,7 +30,7 @@ const useItems = () => {
 
   const update = async recipe => {
     recipe.name = recipe.name.toLowerCase().trim()
-    recipe.url = recipe.url.trim()
+    recipe.url = recipe.url && recipe.url.trim()
     try {
       await db.put(recipe)
       return true
