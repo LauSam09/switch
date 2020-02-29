@@ -31,7 +31,7 @@ const AddRecipe = () => {
 
   const handleNameChange = (value) => {
     setName(value)
-    if (recipes.filter(r => r.name === value.toLowerCase()).length > 0) {
+    if (recipes.filter(r => r.name.trim() === value.toLowerCase().trim()).length > 0) {
       setError('Name taken')
     } else {
       error && setError('')
@@ -41,7 +41,7 @@ const AddRecipe = () => {
   const handleSubmit = async event => {
     event.preventDefault()
 
-    if (await add({ name: name.toLowerCase() })) {
+    if (await add({ name: name.toLowerCase().trim() })) {
       history.push('/recipes')
     }
   }

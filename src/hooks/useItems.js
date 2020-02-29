@@ -24,6 +24,7 @@ const useItems = () => {
   }
 
   const add = async (item) => {
+    item._id = item._id.trim()
     try {
       const existing = await db.get(item._id)
       if (existing.added) {
