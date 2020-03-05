@@ -1,4 +1,4 @@
-export const REMOTE_DATABASE = process.env.REACT_APP_DATABASE_URL
+export const BASE_URL = window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '')
 
 export const CATEGORIES = [
   { name: 'other', color: '#B7B7B7', fontColour: '#FFFFFF' },
