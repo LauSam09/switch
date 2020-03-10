@@ -1,4 +1,8 @@
-export const BASE_URL = window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '')
+const url = window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '')
+// Development server will proxy all requests whereas production needs a specific base url.
+export const BASE_URL = process.env.NODE_ENV === 'production'
+  ? url + '/database'
+  : url
 
 export const CATEGORIES = [
   { name: 'other', color: '#B7B7B7', fontColour: '#FFFFFF' },

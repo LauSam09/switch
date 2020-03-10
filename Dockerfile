@@ -1,9 +1,6 @@
 # build environment
 FROM node:alpine as build
 WORKDIR /app
-ENV PATH /app/node_modules/.bin:$PATH
-ARG DATABASE_URL
-ENV REACT_APP_DATABASE_URL $DATABASE_URL
 
 # Copy application dependency manifests to the container image.
 # A wildcard is used to ensure both package.json AND package-lock.json are copied.
