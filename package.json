@@ -2,6 +2,7 @@
   "name": "switch",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:5984",
   "dependencies": {
     "@material-ui/core": "^4.9.0",
     "@material-ui/icons": "^4.5.1",

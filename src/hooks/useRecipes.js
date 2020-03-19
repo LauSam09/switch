@@ -1,8 +1,8 @@
 import PouchDB from 'pouchdb-browser'
-import { REMOTE_DATABASE } from '../constants'
+import { BASE_URL } from '../constants'
 
 export const db = new PouchDB('recipes')
-export const remoteDb = new PouchDB(`${REMOTE_DATABASE}/recipes`)
+export const remoteDb = new PouchDB(`${BASE_URL}/recipes`)
 
 const useItems = () => {
   const get = async () =>

@@ -1,12 +1,12 @@
 import React from 'react'
 import PouchDB from 'pouchdb-browser'
 import PouchDBFind from 'pouchdb-find'
-import { REMOTE_DATABASE } from '../constants'
+import { BASE_URL } from '../constants'
 
 PouchDB.plugin(PouchDBFind)
 
 export const db = new PouchDB('items')
-export const remoteDb = new PouchDB(`${REMOTE_DATABASE}/items`)
+export const remoteDb = new PouchDB(`${BASE_URL}/items`)
 
 db.createIndex({
   index: { fields: ['added'] }

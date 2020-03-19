@@ -1,11 +1,10 @@
 import React from 'react'
 import axios from 'axios'
 import { useLocation, useHistory } from 'react-router-dom'
-import { REMOTE_DATABASE } from '../constants'
 import { db as itemsDb, remoteDb as remoteItemsDb } from './useItems'
 import { db as recipesDb, remoteDb as remoteRecipesDb } from './useRecipes'
 
-axios.defaults.baseURL = REMOTE_DATABASE
+axios.defaults.baseURL = process.env.NODE_ENV === 'production' ? '/database' : '/'
 axios.defaults.withCredentials = true
 
 const useAuthentication = () => {
