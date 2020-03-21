@@ -8,7 +8,7 @@ export const CATEGORIES = [
   { name: 'other', color: '#B7B7B7', fontColour: '#FFFFFF' },
   { name: 'fresh', color: '#95D5B7', fontColour: '#FFFFFF' },
   { name: 'dairy', color: '#E8DE86', fontColour: '#FFFFFF' },
-  { name: 'cupboard', color: '#D0CEBA', fontColour: '#FFFFFF' },
+  { name: 'cupboard', color: '#D0BAD0', fontColour: '#FFFFFF' },
   { name: 'drinks', color: '#A4C7DB', fontColour: '#FFFFFF' },
   { name: 'frozen', color: '#1B6DE3', fontColour: '#FFFFFF' },
   { name: 'meat', color: '#FFB0B0', fontColour: '#FFFFFF' },
