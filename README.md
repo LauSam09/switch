@@ -12,6 +12,8 @@ When online, the client PouchDB databases synchronise in real-time with a server
   * Material UI to simplify layout and styling.
   * [PouchDB](https://pouchdb.com/) / [CouchDB](https://couchdb.apache.org/) to store and synchronise data between clients.
 * CI/CD
+  * ESLint
+  * Nginx
   * Docker
   * CircleCI - branch-dependent automated linting, building and deployment.
   * Google Cloud Platform (Cloud Run)
