@@ -31,7 +31,7 @@ const Items = ({ items, toggleComplete, openCategoryPicker }) =>
               disableRipple
             />
           </ListItemIcon>
-          <ListItemText primary={item._id} />
+          <ListItemText primary={item._id} style={{ textDecoration: item.completed ? 'line-through' : '' }} />
           <ListItemSecondaryAction>
             <IconButton
               edge="end"
