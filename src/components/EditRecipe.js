@@ -10,7 +10,6 @@ import {
 import { useHistory, useParams } from 'react-router-dom'
 import IconButton from '@material-ui/core/IconButton'
 import DeleteIcon from '@material-ui/icons/Delete'
-import { red } from '@material-ui/core/colors'
 
 import useRecipes from '../hooks/useRecipes'
 

@@ -1,20 +1,70 @@
 import React from 'react'
-import { Dialog, DialogTitle, List, ListItem, ListItemText } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+import { Dialog, DialogTitle, List, ListItem, ListItemText, TextField } from '@material-ui/core'
+import IconButton from '@material-ui/core/IconButton'
+import SaveIcon from '@material-ui/icons/Save'
+
 import { CATEGORIES } from '../../constants'
 
-const CategoryPicker = ({ name, initialCategory, selectCategory }) => {
+const useStyles = makeStyles((theme) => ({
+  title: {
+    display: 'inline-block'
+  },
+  actions: {
+    float: 'right',
+    margin: '5px 5px 0 0'
+  },
+  input: {
+    width: '90%',
+    margin: 'auto'
+  },
+  save: {
+    color: theme.palette.primary.light
+  }
+}))
+
+const CategoryPicker = ({ initialName, initialCategory, update, cancel }) => {
+  const classes = useStyles()
+  const [name, setName] = React.useState(initialName)
+  const [itemCategory, setItemCategory] = React.useState(initialCategory)
+
+  const onSubmit = (event) => {
+    event && event.preventDefault()
+    update(name, itemCategory)
+  }
+
   return (<Dialog open={true}
-    onClose={() => selectCategory(initialCategory)}
-    fullWidth={true}
-    maxWidth={'xs'}>
-    <DialogTitle>Set category for {name}</DialogTitle>
+    onClose={cancel}
+    maxWidth={'sm'}
+  >
+    <div>
+      <DialogTitle className={classes.title}>Update {initialName}</DialogTitle>
+      <IconButton
+        aria-label="save"
+        className={classes.actions}
+        title="Save"
+        onClick={onSubmit}
+      >
+        <SaveIcon className={classes.save} />
+      </IconButton>
+    </div>
+    <form onSubmit={onSubmit}
+      className={classes.input}>
+      <TextField
+        fullWidth
+        autoFocus
+        label="Name"
+        value={name}
+        onChange={event => setName(event.target.value)}
+      />
+    </form>
     <List>
       {CATEGORIES.map((category, index) => (
         <ListItem
           button
           key={index}
-          selected={index === initialCategory}
-          onClick={() => selectCategory(index)}
+          selected={index === itemCategory}
+          onClick={() => setItemCategory(index)}
         >
           <ListItemText
             style={{

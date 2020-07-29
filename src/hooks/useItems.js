@@ -24,7 +24,9 @@ const useItems = () => {
   }
 
   const add = async (item) => {
+    // TODO: Use uuid for id, and adjust existing logic to check by name rather than id.
     item._id = item._id.trim()
+    item.name = item._id
     try {
       const existing = await db.get(item._id)
       if (existing.added) {

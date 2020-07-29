@@ -18,11 +18,12 @@ const Items = ({ items, toggleComplete, openCategoryPicker }) =>
         const category = item.category === undefined
           ? CATEGORIES[0]
           : CATEGORIES[item.category]
-        return <ListItem key={item._id} onClick={() => toggleComplete(item)} dense button>
+        return <ListItem key={item._id} onClick={() => openCategoryPicker(item)} dense button>
           <ListItemIcon>
             <Checkbox
               edge="start"
               checked={item.completed || false}
+              onClick={() => toggleComplete(item)}
               style={{
                 color: '#757575',
                 backgroundColor: 'inherit'
@@ -31,7 +32,7 @@ const Items = ({ items, toggleComplete, openCategoryPicker }) =>
               disableRipple
             />
           </ListItemIcon>
-          <ListItemText primary={item._id} style={{ textDecoration: item.completed ? 'line-through' : '' }} />
+          <ListItemText primary={item.name || item._id} style={{ textDecoration: item.completed ? 'line-through' : '' }} />
           <ListItemSecondaryAction>
             <IconButton
               edge="end"

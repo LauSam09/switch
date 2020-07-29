@@ -25,7 +25,7 @@ const ItemList = () => {
   const { get, add, update, bulkUpdate, error, onChange } = useItems()
   const [items, setItems] = React.useState([])
   const [loading, setLoading] = React.useState(true)
-  const [categoryItem, setCategoryItem] = React.useState(null)
+  const [selectedItem, setSelectedItem] = React.useState(null)
   const inputRef = React.useRef()
 
   React.useEffect(() => {
@@ -54,9 +54,9 @@ const ItemList = () => {
     await bulkUpdate(items.filter(i => i.completed).map(c => ({ ...c, completed: false, added: false })))
   }
 
-  const changeCategory = (category) => {
-    update({ ...categoryItem, category })
-    setCategoryItem(null)
+  const updateItem = (name, category) => {
+    update({ ...selectedItem, name, category })
+    setSelectedItem(null)
   }
 
   if (loading) {
@@ -65,10 +65,15 @@ const ItemList = () => {
 
   return (
     <Container maxWidth="sm">
-      {categoryItem && <CategoryPicker name={categoryItem._id}
-        initialCategory={categoryItem.category || 0}
-        selectCategory={changeCategory}
-      />}
+      {
+        selectedItem &&
+          <CategoryPicker
+            initialName={selectedItem.name || selectedItem._id}
+            initialCategory={selectedItem.category || 0}
+            update={updateItem}
+            cancel={() => setSelectedItem(null)}
+          />
+      }
       <div className={classes.actions}>
         <IconButton aria-label="add" onClick={focusInput} title="Add" >
           <AddIcon />
@@ -79,7 +84,7 @@ const ItemList = () => {
       </div>
       <List items={items.sort((item1, item2) => item1.category - item2.category)}
         toggleComplete={(item) => update({ ...item, completed: !item.completed })}
-        openCategoryPicker={(item) => setCategoryItem(item)} />
+        openCategoryPicker={(item) => setSelectedItem(item)} />
       <Input addItem={add} error={error} ref={inputRef} />
     </Container>
   )
