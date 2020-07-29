@@ -12,13 +12,32 @@ import { Link } from 'react-router-dom'
 import IconButton from '@material-ui/core/IconButton'
 import AddIcon from '@material-ui/icons/Add'
 import DeleteIcon from '@material-ui/icons/Delete'
-import { yellow } from '@material-ui/core/colors'
+import { makeStyles } from '@material-ui/core/styles'
 
 import RecipeDialog from './RecipeDialog'
 import useRecipes from '../../hooks/useRecipes'
 import { DAYS } from '../../constants'
 
+const useStyles = makeStyles((theme) => ({
+  loading: {
+    textAlign: 'center'
+  },
+  actions: {
+    textAlign: 'right'
+  },
+  delete: {
+    color: theme.palette.warning.light
+  },
+  dayChip: {
+    marginRight: '5px'
+  },
+  label: {
+    overflow: 'hidden'
+  }
+}))
+
 const RecipeList = () => {
+  const classes = useStyles()
   const { get, update, bulkUpdate, onChange } = useRecipes()
   const [recipes, setRecipes] = React.useState([])
   const [selectedRecipe, setSelectedRecipe] = React.useState(null)
@@ -83,7 +102,7 @@ const RecipeList = () => {
 
   if (loading) {
     return (
-      <div style={{ textAlign: 'center' }}>
+      <div className={classes.loading}>
         <CircularProgress />
       </div>
     )
@@ -94,8 +113,7 @@ const RecipeList = () => {
       {selectedRecipe && <RecipeDialog recipe={selectedRecipe}
         update={update}
         onClose={() => setSelectedRecipe(null)} />}
-
-      <div style={{ textAlign: 'right' }}>
+      <div className={classes.actions}>
         <IconButton
           aria-label="add"
           title="Add"
@@ -104,7 +122,7 @@ const RecipeList = () => {
           <AddIcon />
         </IconButton>
         <IconButton aria-label="delete" title="Clear days" onClick={handleClearDays}>
-          <DeleteIcon style={{ color: yellow[700] }} />
+          <DeleteIcon className={classes.delete} />
         </IconButton>
       </div>
       <List>
@@ -116,11 +134,11 @@ const RecipeList = () => {
                   <Chip
                     label={DAYS[recipe.day].slice(0, 3).toUpperCase()}
                     onDelete={() => handleUntagDay(recipe)}
-                    style={{ marginRight: '5px' }} />}
+                    className={classes.dayChip} />}
                 <ListItemText primary={recipe.name}
                   component={Link}
                   to={`recipes/${recipe.name}`}
-                  style={{ overflow: 'hidden' }}
+                  className={classes.label}
                   primaryTypographyProps={{ noWrap: true }} />
               </ListItem>
             )

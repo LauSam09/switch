@@ -1,9 +1,9 @@
 import React from 'react'
 import { Container, CircularProgress } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 import IconButton from '@material-ui/core/IconButton'
 import DeleteIcon from '@material-ui/icons/Delete'
 import AddIcon from '@material-ui/icons/Add'
-import { red } from '@material-ui/core/colors'
 
 import List from './List'
 import Input from './Input'
@@ -11,7 +11,17 @@ import Input from './Input'
 import useItems from '../../hooks/useItems'
 import CategoryPicker from './CategoryPicker'
 
+const useStyles = makeStyles((theme) => ({
+  actions: {
+    textAlign: 'right'
+  },
+  delete: {
+    color: theme.palette.error.light
+  }
+}))
+
 const ItemList = () => {
+  const classes = useStyles()
   const { get, add, update, bulkUpdate, error, onChange } = useItems()
   const [items, setItems] = React.useState([])
   const [loading, setLoading] = React.useState(true)
@@ -59,12 +69,12 @@ const ItemList = () => {
         initialCategory={categoryItem.category || 0}
         selectCategory={changeCategory}
       />}
-      <div style={{ textAlign: 'right' }}>
+      <div className={classes.actions}>
         <IconButton aria-label="add" onClick={focusInput} title="Add" >
           <AddIcon />
         </IconButton>
         <IconButton aria-label="delete" onClick={clear} title="Clear completed">
-          <DeleteIcon style={{ color: red[700] }} />
+          <DeleteIcon className={classes.delete} />
         </IconButton>
       </div>
       <List items={items.sort((item1, item2) => item1.category - item2.category)}
