@@ -9,7 +9,7 @@ import List from './List'
 import Input from './Input'
 
 import useItems from '../../hooks/useItems'
-import CategoryPicker from './CategoryPicker'
+import ItemDialog from './ItemDialog'
 
 const useStyles = makeStyles((theme) => ({
   actions: {
@@ -67,7 +67,7 @@ const ItemList = () => {
     <Container maxWidth="sm">
       {
         selectedItem &&
-          <CategoryPicker
+          <ItemDialog
             initialName={selectedItem.name || selectedItem._id}
             initialCategory={selectedItem.category || 0}
             update={updateItem}

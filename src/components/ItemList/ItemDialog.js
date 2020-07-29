@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const CategoryPicker = ({ initialName, initialCategory, update, cancel }) => {
+const ItemDialog = ({ initialName, initialCategory, update, cancel }) => {
   const classes = useStyles()
   const [name, setName] = React.useState(initialName)
   const [itemCategory, setItemCategory] = React.useState(initialCategory)
@@ -88,4 +88,4 @@ const CategoryPicker = ({ initialName, initialCategory, update, cancel }) => {
   </Dialog>)
 }
 
-export default CategoryPicker
+export default ItemDialog
