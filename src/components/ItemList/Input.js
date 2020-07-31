@@ -10,7 +10,7 @@ const Input = React.forwardRef(({ addItem, error }, ref) => {
 
   const handleSubmit = async event => {
     event.preventDefault()
-    await addItem({ _id: value.toLowerCase() })
+    await addItem({ name: value.toLowerCase().trim() })
       ? setValue('')
       : setDisplayError(true)
   }

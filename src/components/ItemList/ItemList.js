@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ItemList = () => {
   const classes = useStyles()
-  const { get, add, update, bulkUpdate, error, onChange } = useItems()
+  const { get, add, update, bulkUpdate, error, onChange, addV1 } = useItems()
   const [items, setItems] = React.useState([])
   const [loading, setLoading] = React.useState(true)
   const [selectedItem, setSelectedItem] = React.useState(null)
@@ -86,6 +86,9 @@ const ItemList = () => {
         toggleComplete={(item) => update({ ...item, completed: !item.completed })}
         openCategoryPicker={(item) => setSelectedItem(item)} />
       <Input addItem={add} error={error} ref={inputRef} />
+      <IconButton aria-label="add" onClick={() => addV1({ _id: 'v1', category: 0, added: true })} title="Add" >
+        <AddIcon />
+      </IconButton>
     </Container>
   )
 }

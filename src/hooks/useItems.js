@@ -5,11 +5,15 @@ import { BASE_URL } from '../constants'
 
 PouchDB.plugin(PouchDBFind)
 
-export const db = new PouchDB('items')
+export const db = new PouchDB('items', { auto_compaction: true })
 export const remoteDb = new PouchDB(`${BASE_URL}/items`)
 
 db.createIndex({
   index: { fields: ['added'] }
+})
+
+db.createIndex({
+  index: { fields: ['_id', 'name'] }
 })
 
 const useItems = () => {
@@ -20,26 +24,59 @@ const useItems = () => {
       selector: {
         added: true
       }
-    })).docs
+    })).docs.map(item => ({ ...item, name: item.name || item._id }))
+  }
+
+  const addV1 = async (item) => {
+    await db.put(item)
   }
 
   const add = async (item) => {
-    // TODO: Use uuid for id, and adjust existing logic to check by name rather than id.
-    item._id = item._id.trim()
-    item.name = item._id
-    try {
-      const existing = await db.get(item._id)
-      if (existing.added) {
-        setError(`Item '${item._id}' already added.`)
+    const name = item.name.trim()
+    item.name = name
+
+    const query = {
+      selector: {
+        $or: [
+          {
+            _id: name
+          },
+          {
+            name: name
+          }
+        ]
+      },
+      limit: 1
+    }
+
+    const existingItems = (await db.find(query)).docs
+
+    if (existingItems.length > 0) {
+      console.debug('existing item found')
+      let exs = existingItems[0]
+
+      if (exs.added) {
+        setError(`Item '${name}' already added.`)
         return false
       } else {
-        await db.put({ ...existing, added: true })
-        return true
+        exs = { ...exs, added: true }
       }
-    } catch (err) {
-      await db.put({ ...item, added: true, category: 0 })
+
+      // v1 - replace with v2.
+      if (exs.name === undefined) {
+        console.debug('replacing v1')
+        await db.remove(exs)
+        delete exs._id
+        delete exs._rev
+        await db.post({ ...exs, name, added: true })
+      } else {
+        await db.put({ ...exs, added: true })
+      }
       return true
     }
+
+    await db.post({ ...item, added: true, category: 0 })
+    return true
   }
 
   const onChange = (handleChange) => {
@@ -51,6 +88,40 @@ const useItems = () => {
   }
 
   const update = async (item) => {
+    item.name = item.name.trim()
+    const name = item.name
+
+    const query = {
+      selector: {
+        $or: [
+          {
+            _id: name
+          },
+          {
+            name: name
+          }
+        ]
+      }
+    }
+
+    const existingItems = (await db.find(query)).docs.filter(i => i._id !== item._id)
+
+    if (existingItems.length > 0) {
+      console.debug('removing existing items found with same name')
+      existingItems.forEach(async i => {
+        await db.remove(i)
+      })
+    }
+
+    if (item.name === undefined) {
+      console.debug('replacing v1')
+      await db.remove(item)
+      delete item._id
+      delete item._rev
+      await db.post({ ...item, name })
+      return
+    }
+
     try {
       await db.put(item)
     } catch (err) {
@@ -72,7 +143,8 @@ const useItems = () => {
     update,
     bulkUpdate,
     error,
-    onChange
+    onChange,
+    addV1
   }
 }
 
