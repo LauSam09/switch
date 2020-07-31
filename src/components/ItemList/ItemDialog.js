@@ -26,11 +26,10 @@ const useStyles = makeStyles((theme) => ({
 const ItemDialog = ({ initialName, initialCategory, update, cancel }) => {
   const classes = useStyles()
   const [name, setName] = React.useState(initialName)
-  const [itemCategory, setItemCategory] = React.useState(initialCategory)
 
   const onSubmit = (event) => {
     event && event.preventDefault()
-    update(name, itemCategory)
+    update(name, initialCategory)
   }
 
   return (<Dialog open={true}
@@ -64,7 +63,7 @@ const ItemDialog = ({ initialName, initialCategory, update, cancel }) => {
           divider
           button
           key={index}
-          selected={index === itemCategory}
+          selected={index === initialCategory}
           onClick={() => update(name, index) }
         >
           <ListItemText
