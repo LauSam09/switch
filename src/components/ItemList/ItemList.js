@@ -86,9 +86,6 @@ const ItemList = () => {
         toggleComplete={(item) => update({ ...item, completed: !item.completed })}
         openCategoryPicker={(item) => setSelectedItem(item)} />
       <Input addItem={add} error={error} ref={inputRef} />
-      <IconButton aria-label="add" onClick={() => addV1({ _id: 'v1', category: 0, added: true })} title="Add" >
-        <AddIcon />
-      </IconButton>
     </Container>
   )
 }

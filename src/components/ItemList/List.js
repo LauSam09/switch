@@ -34,7 +34,7 @@ const Items = ({ items, toggleComplete, openCategoryPicker }) =>
           </ListItemIcon>
           <ListItemText
             primary={item.name || item._id}
-            style={{ textDecoration: item.completed ? 'line-through' : '' }}
+            style={{ textDecoration: item.completed ? 'line-through' : '', padding: '10px 0', margin: 0 }}
             onClick={() => openCategoryPicker(item)}
           />
           <ListItemSecondaryAction>

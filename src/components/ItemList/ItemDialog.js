@@ -61,10 +61,11 @@ const ItemDialog = ({ initialName, initialCategory, update, cancel }) => {
     <List>
       {CATEGORIES.map((category, index) => (
         <ListItem
+          divider
           button
           key={index}
           selected={index === itemCategory}
-          onClick={() => setItemCategory(index)}
+          onClick={() => update(name, index) }
         >
           <ListItemText
             style={{

@@ -27,10 +27,6 @@ const useItems = () => {
     })).docs.map(item => ({ ...item, name: item.name || item._id }))
   }
 
-  const addV1 = async (item) => {
-    await db.put(item)
-  }
-
   const add = async (item) => {
     const name = item.name.trim()
     item.name = name
@@ -143,8 +139,7 @@ const useItems = () => {
     update,
     bulkUpdate,
     error,
-    onChange,
-    addV1
+    onChange
   }
 }
 
