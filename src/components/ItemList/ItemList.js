@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ItemList = () => {
   const classes = useStyles()
-  const { get, add, update, bulkUpdate, error, onChange, addV1 } = useItems()
+  const { get, add, update, bulkUpdate, error, onChange } = useItems()
   const [items, setItems] = React.useState([])
   const [loading, setLoading] = React.useState(true)
   const [selectedItem, setSelectedItem] = React.useState(null)
