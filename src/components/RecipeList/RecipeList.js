@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom'
 import IconButton from '@material-ui/core/IconButton'
 import AddIcon from '@material-ui/icons/Add'
 import DeleteIcon from '@material-ui/icons/Delete'
+import GetAppIcon from '@material-ui/icons/GetApp'
 import { makeStyles } from '@material-ui/core/styles'
 
 import RecipeDialog from './RecipeDialog'
@@ -100,6 +101,18 @@ const RecipeList = () => {
     }
   }
 
+  const handleDownload = () => {
+    const json = JSON.stringify(recipes.map(recipe => ({ name: recipe.name, url: recipe.url })))
+    const url = window.URL.createObjectURL(new Blob([json], { type: 'text/json' }))
+    const a = document.createElement('a')
+    a.style.display = 'none'
+    a.href = url
+    a.download = 'switch-recipes.json'
+    document.body.appendChild(a)
+    a.click()
+    window.URL.revokeObjectURL(url)
+  }
+
   if (loading) {
     return (
       <div className={classes.loading}>
@@ -123,6 +136,9 @@ const RecipeList = () => {
         </IconButton>
         <IconButton aria-label="delete" title="Clear days" onClick={handleClearDays}>
           <DeleteIcon className={classes.delete} />
+        </IconButton>
+        <IconButton aria-label="download" title="Download" onClick={handleDownload}>
+          <GetAppIcon />
         </IconButton>
       </div>
       <List>
